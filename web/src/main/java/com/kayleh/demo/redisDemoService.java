@@ -3,7 +3,7 @@ package com.kayleh.demo;
 import com.kayleh.domain.User;
 import com.kayleh.result.CodeMsg;
 import com.kayleh.result.Result;
-import com.kayleh.utils.redis.RedisService;
+import com.kayleh.utils.redis.RedisServiceUtil;
 import com.kayleh.utils.redis.UserKey;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,10 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class redisDemoService {
 
     @Autowired
-    RedisService redisService;
+    RedisServiceUtil redisServiceUtil;
 
     public Result setCache(User user) {
-        boolean set = redisService.set(UserKey.getUserByUserId, user.getId(), user);
+        boolean set = redisServiceUtil.set(UserKey.getUserByUserId, user.getId(), user);
         CodeMsg codeMsg = new CodeMsg();
         codeMsg.setCode(200);
         codeMsg.setMsg("成功");
@@ -27,7 +27,7 @@ public class redisDemoService {
     }
 
     public void getCache(String userId) {
-        redisService.get(UserKey.getUserByUserId, userId, User.class);
+        redisServiceUtil.get(UserKey.getUserByUserId, userId, User.class);
     }
 
 

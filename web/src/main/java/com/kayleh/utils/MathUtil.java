@@ -1,6 +1,8 @@
 package com.kayleh.utils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -35,5 +37,24 @@ public class MathUtil {
      */
     public List<String> rightJoin(List<String> dao, List<String> dto) {
         return dto.stream().filter(s -> !dao.contains(s)).collect(Collectors.toList());
+    }
+
+
+    /*
+         获取 size间隙内，cap个随机不同的整数
+     */
+    public static List<Integer> randomIndex(int size, int cap) {
+        List<Integer> randomList = new ArrayList<>();
+        if (size < cap) cap = size;//如果size比要获取的数量cap少，会进入死循环
+        Random r = new Random();
+        for (int i = 0; i < cap; i++) {
+            int j = r.nextInt(size);
+            while (randomList.contains(j)) {
+                j = r.nextInt(size);
+            }
+            randomList.add(j);
+        }
+        return randomList;
+
     }
 }
