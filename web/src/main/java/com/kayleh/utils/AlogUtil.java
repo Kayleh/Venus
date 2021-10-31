@@ -58,6 +58,51 @@ public class AlogUtil {
         return ~num + 1;
     }
 
+    /**
+     * 输出某个数的二进制数
+     *
+     * @param num
+     * @return
+     */
+    public String binaryStr(int num) {
+        return Integer.toBinaryString(num);
+    }
+
+    /**
+     * 检查第n个位置是不是1
+     *
+     * @param num
+     */
+    public int checkOne(int num, int n) {
+        return num & (1 << n);
+    }
+
+    /**
+     * 把第n个位置设置为1
+     *
+     * @param num
+     */
+    public int setOne(int num, int n) {
+        return num | (1 << n);
+    }
+
+    /**
+     * 把第n个位置设置为0
+     *
+     * @param num
+     */
+    public int switchO(int num, int n) {
+        return num & ~(1 << n);
+    }
+
+    /**
+     * 开关第n个位置
+     *
+     * @param num
+     */
+    public int switchOne(int num, int n) {
+        return num ^ (1 << n);
+    }
 
     /**
      * 与运算（&）
