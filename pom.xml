@@ -11,6 +11,7 @@
     <modules>
         <module>code-generator</module>
         <module>web</module>
+        <module>service-provider</module>
     </modules>
 
 

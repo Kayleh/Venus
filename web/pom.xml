@@ -115,5 +115,11 @@
             <version>1.18.2</version>
             <scope>compile</scope>
         </dependency>
+<!--        阿里云sdk-->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>4.5.25</version>
+        </dependency>
     </dependencies>
 </project>
