@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+# DataSource Config
+spring:
+  application:
+    name: venus-security
+  cloud:
+    #zookeeper 注册中心
+    zookeeper:
+      connect-string: 192.168.188.108:8084
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    #    schema: classpath:db/schema-h2.sql
+    #    data: classpath:db/data-h2.sql
+    url: jdbc:mysql://192.168.188.108:8083/venus
+    username: root
+    password: 123456
+
+# Logger Config
+logging:
+  level:
+    com.baomidou.mybatisplus.samples.quickstart: debug
+
+
+
