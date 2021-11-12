@@ -21,6 +21,9 @@
         <module>venus-eureka</module>
         <module>venus-common</module>
         <module>venus-zookeeper</module>
+        <module>venus-jwt-common</module>
+        <module>venus-jwt-auth-server</module>
+        <module>venus-jwt-resourse</module>
     </modules>
 
 
