@@ -27,7 +27,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * @desp: 自定义认证过滤器
+ * @author: power by Kayleh, 2021/11/15 14:30
+ */
 public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private AuthenticationManager authenticationManager;
@@ -38,6 +41,13 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         this.prop = prop;
     }
 
+    /**
+     * @desp: 尝试验证
+     * @author: power by Kayleh, 2021/11/15 14:46
+     * @params: [request, response]
+     * @return: org.springframework.security.core.Authentication
+     * @since: 1.0.0
+     */
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
             UserPojo sysUser = new ObjectMapper().readValue(request.getInputStream(), UserPojo.class);
@@ -62,6 +72,13 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         }
     }
 
+    /**
+     * @desp: 验证成功操作
+     * @author: power by Kayleh, 2021/11/15 14:47
+     * @params: [request, response, chain, authResult]
+     * @return: void
+     * @since: 1.0.0
+     */
     public void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         UserPojo user = new UserPojo();
         user.setUsername(authResult.getName());

@@ -8,11 +8,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 
 @SpringBootApplication
-@MapperScan("com.dpb.mapper")
+@MapperScan("com.kayleh.mapper")
 @EnableConfigurationProperties(RsaKeyProperties.class)
-public class App {
+public class AuthServer {
 
     public static void main(String[] args) {
-        SpringApplication.run(App.class,args);
+        SpringApplication.run(AuthServer.class,args);
     }
 }

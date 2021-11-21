@@ -10,9 +10,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @SpringBootApplication
 @MapperScan("com.kayleh.mapper")
 @EnableConfigurationProperties(RsaKeyProperties.class)
-public class App {
+public class ResourceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(App.class,args);
+        SpringApplication.run(ResourceApplication.class,args);
     }
 }

@@ -1,11 +1,9 @@
-server:
-  port: 9002
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/srm
+    url: jdbc:mysql://localhost:3306/test
     username: root
-    password: 123456
+    password: admin
     type: com.alibaba.druid.pool.DruidDataSource
 mybatis:
   type-aliases-package: com.kayleh.domain
@@ -16,3 +14,6 @@ logging:
 rsa:
   key:
     pubKeyFile: D:\project\Venus\venus-jwt-common\src\main\resources\id_key_rsa.pub
+    priKeyFile: D:\project\Venus\venus-jwt-common\src\main\resources\id_key_rsa
+server:
+  port: 9001

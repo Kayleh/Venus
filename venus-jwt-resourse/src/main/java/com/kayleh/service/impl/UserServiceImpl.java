@@ -19,14 +19,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         UserPojo user = mapper.queryByUserName(s);
-        if (user == null) {
-            throw new UsernameNotFoundException("not found");
-        }
-        //定义权限列表.
-//        List<GrantedAuthority> authorities = new ArrayList<>();
-        // 用户可以访问的资源名称（或者说用户所拥有的权限） 注意：必须"ROLE_"开头
-//        authorities.add(new SimpleGrantedAuthority("ROLE_"+ userInfo.getRole()));
-//        User userDetails = new User(userInfo.getUserName(),passwordEncoder.encode(userInfo.getPassword()),authorities);
         return user;
     }
 }
