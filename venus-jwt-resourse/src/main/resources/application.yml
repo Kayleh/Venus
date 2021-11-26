@@ -6,19 +6,19 @@ spring:
     password: admin
     type: com.alibaba.druid.pool.DruidDataSource
   application:
-    name: venus-jwt-auth-server
+    name: venus-jwt-resource
   cloud:
     zookeeper:
       connect-string: localhost:3317
 mybatis:
   type-aliases-package: com.kayleh.domain
   mapper-locations: classpath*:mapper/*.xml
+  # classpath后面加* 可以多模块检索到mapper
 logging:
   level:
     com.kayleh: debug
 rsa:
   key:
     pubKeyFile: D:\project\Venus\venus-jwt-common\src\main\resources\id_key_rsa.pub
-    priKeyFile: D:\project\Venus\venus-jwt-common\src\main\resources\id_key_rsa
 server:
-  port: 9001
+  port: 9003

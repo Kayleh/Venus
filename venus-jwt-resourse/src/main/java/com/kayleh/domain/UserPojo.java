@@ -28,7 +28,7 @@ public class UserPojo implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> auth = new ArrayList<>();
-        auth.add(new SimpleGrantedAuthority("ADMIN"));
+        roles.stream().parallel().forEachOrdered(rolePojo -> auth.add(new SimpleGrantedAuthority("ROLE_" + rolePojo.getRoleName())));
         return auth;
     }
 

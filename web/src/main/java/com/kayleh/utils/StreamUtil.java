@@ -52,6 +52,12 @@ public class StreamUtil {
     public static void main(String[] args) {
         List<Integer> integers = ints2Array(0, 1);
         System.out.println(integers.toString());
+
+//        根据obj的某个属性去重
+//        studentList = studentList.stream().collect(
+//                collectingAndThen(
+//                        toCollection(() -> new TreeSet<>(Comparator.comparing(Student::getName))), ArrayList::new)
+//        );
     }
 
 }

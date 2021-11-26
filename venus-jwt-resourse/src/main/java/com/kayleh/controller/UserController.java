@@ -2,12 +2,11 @@ package com.kayleh.controller;
 
 import com.kayleh.domain.UserPojo;
 import com.kayleh.mapper.UserMapper;
+import com.kayleh.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
 
 
 @RestController
@@ -17,12 +16,17 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    UserMapper userMapper;
+    UserService userService;
 
+    @GetMapping("/role")
+    @PreAuthorize("hasRole('USER')")
+    public String read() {
+        return "have a USER role";
+    }
 
     @RequestMapping("/query")
     public String query() {
-        return "success";
+        return "have a USER role";
     }
 
     @RequestMapping("/update")
@@ -31,10 +35,10 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public UserPojo register(@RequestBody(required = false) UserPojo user) {
+    public UserPojo register(@RequestBody UserPojo user) {
         //对密码进行加密
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userMapper.addUser(user);
+        int i = userService.addUser(user);
         return user;
     }
 }

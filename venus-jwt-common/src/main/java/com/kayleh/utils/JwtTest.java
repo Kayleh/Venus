@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test;
  * @since: 1.0.0
  */
 public class JwtTest {
+    //生成秘钥存放的路径
     private String privateKey = "D:/project/Venus/venus-jwt-common/src/main/resources/id_key_rsa";
-
     private String publicKey = "D:/project/Venus/venus-jwt-common/src/main/resources/id_key_rsa.pub";
 
     @Test
-    public void test1() throws Exception{
-        RsaUtils.generateKey(publicKey,privateKey,"kayleh",1024);
+    public void test1() throws Exception {
+        RsaUtils.generateKey(publicKey, privateKey, "kayleh", 1024);
     }
 
 }

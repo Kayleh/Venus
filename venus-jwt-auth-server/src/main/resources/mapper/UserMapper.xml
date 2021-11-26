@@ -5,32 +5,13 @@
 <mapper namespace="com.kayleh.mapper.UserMapper">
     <select id="queryByUserName" resultType="com.kayleh.domain.UserPojo">
         select *
-        from user
+        from t_user_info
         where username = #{userName}
     </select>
-    <insert id="addUser" parameterType="com.kayleh.domain.UserPojo">
-        insert into user
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="username != null">
-                username,
-            </if>
-            <if test="password != null">
-                password,
-            </if>
-            <if test="sex != null">
-                sex
-            </if>
-            <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
-                <if test="username != null">
-                    #{username,jdbcType=VARCHAR},
-                </if>
-                <if test="password != null">
-                    #{password,jdbcType=VARCHAR},
-                </if>
-                <if test="sex != null">
-                    0
-                </if>
-            </trim>
-        </trim>
-    </insert>
+    <select id="queryRoleByUserId" resultType="com.kayleh.domain.RolePojo">
+        select r.id as id, r.role_name as roleName
+        from t_user_role ur
+                 join t_role r on r.id = ur.role_id
+        where ur.user_id = #{userId}
+    </select>
 </mapper>

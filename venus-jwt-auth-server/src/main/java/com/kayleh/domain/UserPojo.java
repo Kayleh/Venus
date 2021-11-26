@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 public class UserPojo implements UserDetails {
 
-    private Integer id;
+    private Long id;
 
     private String username;
 
@@ -28,7 +28,8 @@ public class UserPojo implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> auth = new ArrayList<>();
-        auth.add(new SimpleGrantedAuthority("ADMIN"));
+        roles.stream().parallel().forEachOrdered(rolePojo -> auth.add(new SimpleGrantedAuthority("ROLE_" + rolePojo.getRoleName())));
+//        auth.add(new SimpleGrantedAuthority("ADMIN"));
         return auth;
     }
 

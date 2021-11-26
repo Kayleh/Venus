@@ -1,19 +1,14 @@
 package com.kayleh.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kayleh.config.RsaKeyProperties;
 import com.kayleh.domain.RolePojo;
 import com.kayleh.domain.UserPojo;
 import com.kayleh.utils.JwtUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kayleh.config.RsaKeyProperties;
-import net.bytebuddy.agent.builder.AgentBuilder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -22,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +48,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
 
             UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(sysUser.getUsername(), sysUser.getPassword());
             return authenticationManager.authenticate(authRequest);
-        }catch (Exception e){
+        } catch (Exception e) {
             try {
                 response.setContentType("application/json;charset=utf-8");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -65,7 +59,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
                 out.write(new ObjectMapper().writeValueAsString(resultMap));
                 out.flush();
                 out.close();
-            }catch (Exception outEx){
+            } catch (Exception outEx) {
                 outEx.printStackTrace();
             }
             throw new RuntimeException(e);
@@ -82,9 +76,9 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
     public void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         UserPojo user = new UserPojo();
         user.setUsername(authResult.getName());
-        user.setRoles((List<RolePojo>)authResult.getAuthorities());
+        user.setRoles((List<RolePojo>) authResult.getAuthorities());
         String token = JwtUtils.generateTokenExpireInMinutes(user, prop.getPrivateKey(), 24 * 60);
-        response.addHeader("Authorization", "Bearer "+token);
+        response.addHeader("Authorization", "Bearer " + token);
         try {
             response.setContentType("application/json;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);
@@ -95,7 +89,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
             out.write(new ObjectMapper().writeValueAsString(resultMap));
             out.flush();
             out.close();
-        }catch (Exception outEx){
+        } catch (Exception outEx) {
             outEx.printStackTrace();
         }
     }
