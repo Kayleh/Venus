@@ -29,11 +29,17 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new UsernameNotFoundException("not found");
         }
+
         //定义权限列表.
         List<GrantedAuthority> authorities = new ArrayList<>();
         List<RolePojo> rolePojos = mapper.queryRoleByUserId(user.getId());
-        rolePojos.stream().parallel().forEachOrdered(rolePojo -> authorities.add(new SimpleGrantedAuthority("ROLE_" + rolePojo.getRoleName())));
+        user.setRoles(rolePojos);
         // 用户可以访问的资源名称（或者说用户所拥有的权限） 注意：必须"ROLE_"开头
+        if (rolePojos.isEmpty()){
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        }else{
+            rolePojos.stream().parallel().forEachOrdered(rolePojo -> authorities.add(new SimpleGrantedAuthority("ROLE_" + rolePojo.getRoleName())));
+        }
         User user1 = new User(user.getUsername(), user.getPassword(), authorities);
         return user1;
     }

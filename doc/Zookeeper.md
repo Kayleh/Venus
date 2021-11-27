@@ -1,4 +1,7 @@
 Zookeeper
+> 面向分布式应用的分布式协调服务。
+
+Zookeeper 节点分为永久节点、顺序节点、临时节点
 
 绑定端口2181
 ```shell script

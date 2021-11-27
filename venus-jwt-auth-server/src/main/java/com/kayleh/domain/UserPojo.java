@@ -28,7 +28,11 @@ public class UserPojo implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> auth = new ArrayList<>();
-        roles.stream().parallel().forEachOrdered(rolePojo -> auth.add(new SimpleGrantedAuthority("ROLE_" + rolePojo.getRoleName())));
+        if (roles.isEmpty()) {
+            auth.add(new SimpleGrantedAuthority("ROLE_USER"));
+        } else {
+            roles.stream().parallel().forEachOrdered(rolePojo -> auth.add(new SimpleGrantedAuthority( rolePojo.getRoleName())));
+        }
 //        auth.add(new SimpleGrantedAuthority("ADMIN"));
         return auth;
     }
@@ -42,21 +46,25 @@ public class UserPojo implements UserDetails {
     public String getUsername() {
         return this.username;
     }
+
     @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
+
     @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
+
     @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
+
     @JsonIgnore
     @Override
     public boolean isEnabled() {

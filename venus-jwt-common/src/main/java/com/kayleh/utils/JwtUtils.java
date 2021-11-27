@@ -81,7 +81,8 @@ public class JwtUtils {
         Claims body = claimsJws.getBody();
         Payload<T> claims = new Payload<>();
         claims.setId(body.getId());
-        claims.setUserInfo(JsonUtils.toBean(body.get(JWT_PAYLOAD_USER_KEY).toString(), userType));
+        T userInfo = JsonUtils.toBean(body.get(JWT_PAYLOAD_USER_KEY).toString(), userType);
+        claims.setUserInfo(userInfo);
         claims.setExpiration(body.getExpiration());
         return claims;
     }

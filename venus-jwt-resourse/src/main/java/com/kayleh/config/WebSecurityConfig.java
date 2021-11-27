@@ -19,7 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)//启用注解控制
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -48,12 +48,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 //.antMatchers("/user/query").hasAnyRole("USER")
-                .antMatchers("/user/query").hasAnyRole("USER")
-                .antMatchers("/admin/query").hasAnyRole("ADMIN")
+                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/register").permitAll()
                 .anyRequest()
                 .authenticated()
-                .and()
+                .and().logout().logoutUrl("/logout").and()
                 .addFilter(new TokenVerifyFilter(super.authenticationManager(), prop))
                 // 禁用掉session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

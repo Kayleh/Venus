@@ -1,6 +1,8 @@
 package com.kayleh.controller;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +31,13 @@ public class adminController {
     }
 
     @RequestMapping("/query")
+    @Secured("ROLE_ADMIN")
     public String query() {
         return "success";
+    }
+
+    @PreAuthorize("#age>98")//age参数必须大于98
+    public String getAge(Integer age) {
+        return String.valueOf(age);
     }
 }

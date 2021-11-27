@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -17,9 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @desp: 自定义认证过滤器
@@ -76,7 +75,14 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
     public void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         UserPojo user = new UserPojo();
         user.setUsername(authResult.getName());
-        user.setRoles((List<RolePojo>) authResult.getAuthorities());
+        List<RolePojo> list = new ArrayList<>();
+        for (GrantedAuthority authority : authResult.getAuthorities()) {
+            RolePojo rolePojo = new RolePojo();
+            rolePojo.setRoleName(authority.getAuthority());
+            list.add(rolePojo);
+        }
+        //user.setRoles((List<RolePojo>) authResult.getAuthorities());
+        user.setRoles(list);
         String token = JwtUtils.generateTokenExpireInMinutes(user, prop.getPrivateKey(), 24 * 60);
         response.addHeader("Authorization", "Bearer " + token);
         try {
