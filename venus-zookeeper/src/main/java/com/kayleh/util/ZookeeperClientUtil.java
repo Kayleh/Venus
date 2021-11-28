@@ -10,13 +10,13 @@ import java.util.concurrent.CountDownLatch;
 /**
  * Zookeeper客户端工具类
  *
- * @author zhanghao
+ * @author kayleh
  * @date 2021/8/18
  */
 public class ZookeeperClientUtil {
 
     /**
-     * 获取Curator客户端 【有梦想的肥宅】
+     * 获取Curator客户端
      */
     public static CuratorFramework getCuratorFramework() {
 
@@ -37,7 +37,13 @@ public class ZookeeperClientUtil {
         return client;
     }
 
-
+    /**
+     * @desp: 创建永久节点
+     * @author: power by Kayleh, 2021/11/28 13:37
+     * @params: []
+     * @return: void
+     * @since: 1.0.0
+     */
     public static void create() {
         try {
             final CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -53,6 +59,13 @@ public class ZookeeperClientUtil {
         }
     }
 
+    /**
+     * @desp: 连接状态
+     * @author: power by Kayleh, 2021/11/28 13:37
+     * @params: [args]
+     * @return: void
+     * @since: 1.0.0
+     */
     public static void main(String[] args) {
         try {
             final CountDownLatch countDownLatch = new CountDownLatch(1);
