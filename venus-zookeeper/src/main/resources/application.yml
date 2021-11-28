@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: venus-zookeeper
+  cloud:
+    zookeeper:
+      connect-string: localhost:3317
+server:
+  port: 9004

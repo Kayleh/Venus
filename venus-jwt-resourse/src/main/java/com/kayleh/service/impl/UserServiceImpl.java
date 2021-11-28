@@ -39,6 +39,7 @@ public class UserServiceImpl implements UserService {
         }else{
             rolePojos.stream().parallel().forEachOrdered(rolePojo -> authorities.add(new SimpleGrantedAuthority("ROLE_" + rolePojo.getRoleName())));
         }
+        UserDetails build = User.withUsername(user.getUsername()).password(user.getPassword()).authorities(authorities).build();
         User user1 = new User(user.getUsername(), user.getPassword(), authorities);
         return user1;
     }

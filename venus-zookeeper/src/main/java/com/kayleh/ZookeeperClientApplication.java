@@ -12,8 +12,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-public class ZookeeperApplication {
+public class ZookeeperClientApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ZookeeperApplication.class, args);
+        SpringApplication.run(ZookeeperClientApplication.class, args);
     }
 }

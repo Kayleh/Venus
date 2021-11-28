@@ -18,7 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @desp: 自定义认证过滤器
@@ -44,8 +47,9 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
             UserPojo sysUser = new ObjectMapper().readValue(request.getInputStream(), UserPojo.class);
-
+            // String s = this.obtainPassword(request);
             UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(sysUser.getUsername(), sysUser.getPassword());
+            this.setDetails(request, authRequest);
             return authenticationManager.authenticate(authRequest);
         } catch (Exception e) {
             try {
