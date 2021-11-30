@@ -30,13 +30,13 @@ public class AuthController {
 ```
 4.此时访问接口，发现
 
-![image-20211031203812140](D:/project/Venus/doc/SpringSecurity/image-20211031203812140.png)
+![image-20211031203812140](D:/project/Venus/doc/3_SpringSecurity/image-20211031203812140.png)
 
 默认的Spring Security就是生效了的，此时的接口都是被保护的，需要通过验证才能正常的访问。 Spring Security提供了一个默认的用户，用户名是user，而密码则是启动项目的时候自动生成的。
 
 我们查看项目启动的日志，会发现如下的一段Log
 
-![image-20211031203905683](D:/project/Venus/doc/SpringSecurity/image-20211031203905683.png)
+![image-20211031203905683](D:/project/Venus/doc/3_SpringSecurity/image-20211031203905683.png)
 
 如果不想使用默认的安全机制，可在配置文件中配置参数：
 
@@ -249,7 +249,7 @@ protected void configure(HttpSecurity http) throws Exception {
 
 这里做一下简单的思路整理
 
-![img](D:/project/Venus/doc/SpringSecurity/2018518151529411.jpg)
+![img](D:/project/Venus/doc/3_SpringSecurity/2018518151529411.jpg)
 
 首先来写自定义的Controller，当需要身份认证的时候就跳转过来
 

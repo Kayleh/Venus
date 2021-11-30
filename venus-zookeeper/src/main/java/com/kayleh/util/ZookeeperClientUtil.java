@@ -1,10 +1,12 @@
 package com.kayleh.util;
 
+import lombok.Cleanup;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.*;
 
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -22,16 +24,13 @@ public class ZookeeperClientUtil {
 
         //1、配置重试策略 5000：重试间隔 5：重试次数
         ExponentialBackoffRetry policy = new ExponentialBackoffRetry(5 * 1000, 5);
-
         //2、构造Curator客户端
-        CuratorFramework client = CuratorFrameworkFactory.builder().connectString("3317")
+        @Cleanup CuratorFramework client = CuratorFrameworkFactory.builder().connectString("localhost:3317")//localhost:
                 .connectionTimeoutMs(60 * 1000)
                 .sessionTimeoutMs(60 * 1000)
                 .retryPolicy(policy).build();
-
         //3、启动客户端
         client.start();
-
         //4、输出信息
         System.out.println("zookeeper启动成功，获取到客户端链接");
         return client;
@@ -84,7 +83,12 @@ public class ZookeeperClientUtil {
                     });
             countDownLatch.await();
             //CONNECTED
-            System.out.println(zooKeeper.getState());
+            System.out.println("ZooKeeper state -> " + zooKeeper.getState());
+            List<String> children = zooKeeper.getChildren("/services", false);
+            System.out.println("-----node:-----");
+            children.stream().parallel().forEachOrdered(System.out::println);
+            System.out.println("---------------");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
