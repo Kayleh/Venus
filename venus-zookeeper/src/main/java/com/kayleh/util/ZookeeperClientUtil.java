@@ -1,6 +1,5 @@
 package com.kayleh.util;
 
-import lombok.Cleanup;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
@@ -17,22 +16,24 @@ import java.util.concurrent.CountDownLatch;
  */
 public class ZookeeperClientUtil {
 
+    private static final String connectString = "127.0.0.1:3317";
+
     /**
      * 获取Curator客户端
      */
     public static CuratorFramework getCuratorFramework() {
-
         //1、配置重试策略 5000：重试间隔 5：重试次数
-        ExponentialBackoffRetry policy = new ExponentialBackoffRetry(5 * 1000, 5);
+        ExponentialBackoffRetry policy = new ExponentialBackoffRetry(1000, 5);
         //2、构造Curator客户端
-        @Cleanup CuratorFramework client = CuratorFrameworkFactory.builder().connectString("localhost:3317")//localhost:
+//        @Cleanup
+        CuratorFramework client = CuratorFrameworkFactory.builder().connectString(connectString)//localhost:
                 .connectionTimeoutMs(60 * 1000)
                 .sessionTimeoutMs(60 * 1000)
                 .retryPolicy(policy).build();
         //3、启动客户端
         client.start();
         //4、输出信息
-        System.out.println("zookeeper启动成功，获取到客户端链接");
+        System.out.println("zookeeper启动成功，获取到客户端链接：" + connectString);
         return client;
     }
 
@@ -52,7 +53,7 @@ public class ZookeeperClientUtil {
                             countDownLatch.countDown();
                         }
                     });
-            zooKeeper.create("/kayleh", "0".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+            zooKeeper.create("/PERSISTENT", "0".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,7 +72,7 @@ public class ZookeeperClientUtil {
             ZooKeeper zooKeeper =
                     new ZooKeeper(
 //                            "192.168.3.33:2181,192.168.3.35:2181,192.168.3.37:2181",
-                            "127.0.0.1:3317",
+                            connectString,
                             4000, new Watcher() {
                         @Override
                         public void process(WatchedEvent event) {
@@ -84,11 +85,15 @@ public class ZookeeperClientUtil {
             countDownLatch.await();
             //CONNECTED
             System.out.println("ZooKeeper state -> " + zooKeeper.getState());
-            List<String> children = zooKeeper.getChildren("/services", false);
-            System.out.println("-----node:-----");
-            children.stream().parallel().forEachOrdered(System.out::println);
-            System.out.println("---------------");
-
+            try {
+                List<String> children = zooKeeper.getChildren("/services", false);
+                System.out.println("-----node:-----");
+                children.stream().parallel().forEachOrdered(System.out::println);
+                System.out.println("---------------");
+            } catch (Exception e) {
+                System.out.println("获取注册节点失败：");
+                System.out.println(e.getMessage());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

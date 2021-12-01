@@ -15,9 +15,9 @@ import java.util.concurrent.TimeUnit;
 
 public class ZkLock {
 
-    @SneakyThrows
-    public static void main(String[] args) {
-        test();
+   // @SneakyThrows
+    public static void main1(String[] args) {
+
 
 //        final String connectString = "localhost:3317,localhost:3317,localhost:3317";
 //
@@ -58,16 +58,19 @@ public class ZkLock {
 //        }
     }
 
-    public static void test() {
+    public static void main(String[] args) {
         CuratorFramework client = ZookeeperClientUtil.getCuratorFramework();
 
-        InterProcessMutex lock = new InterProcessMutex(client, "/mylock");
+        InterProcessMutex lock = new InterProcessMutex(client, "/lock");
         CountDownLatch countDownLatch = new CountDownLatch(2);
         new Thread(() -> {
             try {
                 if (lock.acquire(5, TimeUnit.SECONDS)) {
                     System.out.println(Thread.currentThread().getName() + " 获得了锁");
+                    System.out.println(Thread.currentThread().getName() + " 正在执行5秒的任务");
+                    Thread.sleep(5000);
                     lock.release();
+                    System.out.println(Thread.currentThread().getName() + " 释放了锁");
                 } else
                     System.out.println(Thread.currentThread().getName() + " 没拿到锁");
             } catch (Exception e) {
@@ -80,7 +83,10 @@ public class ZkLock {
             try {
                 if (lock.acquire(5, TimeUnit.SECONDS)) {
                     System.out.println(Thread.currentThread().getName() + " 获得了锁");
+                    System.out.println(Thread.currentThread().getName() + " 正在执行6秒的任务");
+                    Thread.sleep(6000);
                     lock.release();
+                    System.out.println(Thread.currentThread().getName() + " 释放了锁");
                 } else
                     System.out.println(Thread.currentThread().getName() + " 没拿到锁");
             } catch (Exception e) {

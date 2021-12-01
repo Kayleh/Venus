@@ -47,10 +47,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf()
                 .disable()
                 .authorizeRequests()
-                //.antMatchers("/user/query").hasAnyRole("USER")
+                //必须先声明范围小的，再声明范围大的
+                .antMatchers("/user/register").permitAll()
                 .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/register").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and().logout().logoutUrl("/logout").and()

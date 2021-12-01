@@ -21,7 +21,6 @@ public class BaseUserServiceImpl implements BaseUserService {
     BaseUserMapper baseUserMapper;
     @Override
     public UserVo selectOne(UserVo baseUser) {
-        UserVo userVo = baseUserMapper.selectOne(baseUser);
-        return userVo;
+        return baseUserMapper.selectOne(baseUser);
     }
 }
