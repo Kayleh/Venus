@@ -1,0 +1,41 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: venus-gateway
+  cloud:
+    zookeeper:
+      connect-string: localhost:3317
+    gateway:
+      globalcors: # 处理跨域
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes: #数组形式
+#        - id: middle-goods   #路由名，可以随意起，但一般使用服务名
+#          uri: lb://middle-goods  #想要转发到的地址 路由到的服务，由【lb+服务名】构成，lb意为LoadBlance
+#          order: 1 #优先级，数字越小优先级越高
+#          predicates: #断言 配置哪个路径才转发 (@RequestMapping)
+#            - Path=/middle-goods  #指定uri，符合该uri的请求就会转发到对应的微服务中
+#          filters: #过滤器，请求在传递过程中通过过滤器修改
+#            - StripPrefix=1  #去掉第一层前缀
+        - id: venus-jwt-auth-server
+          uri: http://localhost:9001
+          order: 1
+          predicates:
+            - Path=/login
+        - id: venus-jwt-resource
+          uri: lb://venus-jwt-resource
+          predicates:
+            - Path=/user/query
+
+
