@@ -1,4 +1,11 @@
 spring:
+  web:
+    resources:
+      static-locations: classpath:/templates/,classpath:/static/
+  mvc:
+    view:
+      prefix: /
+      suffix: .html
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/venus
@@ -10,6 +17,7 @@ spring:
   cloud:
     zookeeper:
       connect-string: localhost:3317
+
 mybatis:
   type-aliases-package: com.kayleh.domain
   mapper-locations: classpath*:mapper/*.xml
@@ -22,3 +30,4 @@ rsa:
     pubKeyFile: D:\project\Venus\venus-jwt-common\src\main\resources\id_key_rsa.pub
 server:
   port: 9003
+

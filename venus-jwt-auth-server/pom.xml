@@ -66,6 +66,11 @@
             <artifactId>zookeeper</artifactId>
             <version>3.7.0</version>
         </dependency>
+        <!--前端框架-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
     </dependencies>
 
 

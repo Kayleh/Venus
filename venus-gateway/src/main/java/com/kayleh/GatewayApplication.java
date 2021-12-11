@@ -6,10 +6,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class VenusGatewayApplication {
+public class GatewayApplication
+{
 
     public static void main(String[] args) {
-        SpringApplication.run(VenusGatewayApplication.class, args);
+        SpringApplication.run(GatewayApplication.class, args);
     }
 
 }

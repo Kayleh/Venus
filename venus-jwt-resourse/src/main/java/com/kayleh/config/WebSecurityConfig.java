@@ -20,7 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)//启用注解控制
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter
+{
 
     @Autowired
     private UserService userService;
@@ -31,6 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //    @Bean
 //    public BCryptPasswordEncoder passwordEncoder() {
 //        return new BCryptPasswordEncoder();
+    //  addJsonArray("authorList", authorList.stream().map(TbQyProductAuthorPO::getPersonName).distinct().collect(Collectors.toList()));
 //    }
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -48,12 +50,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 //必须先声明范围小的，再声明范围大的
+                .antMatchers("/").permitAll()
                 .antMatchers("/user/register").permitAll()
                 .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
-                .and().logout().logoutUrl("/logout").and()
+                .and()
+                .formLogin().loginPage("/login.html").failureUrl("/login.html").defaultSuccessUrl("/").permitAll()
+                .and()
+                .logout().logoutUrl("/logout")
+                .and()
+                //.formLogin().loginPage("/login").loginProcessingUrl("/login_check").failureUrl("/login").defaultSuccessUrl("/index").permitAll()
+                //.formLogin().loginPage("/login.html").defaultSuccessUrl("/index").permitAll()
+                //.and()
                 .addFilter(new TokenVerifyFilter(super.authenticationManager(), prop))
                 // 禁用掉session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
