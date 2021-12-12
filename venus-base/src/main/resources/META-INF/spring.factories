@@ -1,0 +1,2 @@
+org.springframework.boot.SpringApplicationRunListener=\
+	com.kayleh.ext.Sample2SpringApplicationRunListener

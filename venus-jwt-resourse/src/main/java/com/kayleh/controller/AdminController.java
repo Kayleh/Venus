@@ -2,6 +2,7 @@ package com.kayleh.controller;
 
 import com.kayleh.domain.UserPojo;
 import com.kayleh.domain.UserVo;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +27,7 @@ public class AdminController extends BaseController {
     //读写权限
     @GetMapping("/read-or-write")
     @PreAuthorize("hasAnyAuthority('read','write')")
+    @Cacheable
     public String readWriteDate() {
         return "have a read or write authority";
     }

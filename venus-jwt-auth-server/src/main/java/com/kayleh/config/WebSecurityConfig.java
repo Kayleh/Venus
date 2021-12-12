@@ -21,7 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration// 将当前类标记为配置类
 @EnableWebSecurity// 启用Web环境下权限控制功能
 @EnableGlobalMethodSecurity(securedEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter
+{
 
     @Autowired
     private UserService userService;
@@ -48,11 +49,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/user/**").hasAnyRole("ADMIN","USER")
+                .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
+                .formLogin().loginPage("/login.html").failureUrl("/login.html").defaultSuccessUrl("http://localhost:8080/").permitAll().and()
                 .addFilter(new TokenLoginFilter(super.authenticationManager(), prop))
                 .addFilter(new TokenVerifyFilter(super.authenticationManager(), prop))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

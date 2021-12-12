@@ -27,7 +27,8 @@ import java.util.Map;
  * @desp: 自定义认证过滤器
  * @author: power by Kayleh, 2021/11/15 14:30
  */
-public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
+public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter
+{
 
     private AuthenticationManager authenticationManager;
     private RsaKeyProperties prop;

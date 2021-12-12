@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 控制台打印的内容输出格式 -->
+    <property name="LINE_LOG_PATTERN"
+        value="%red(%date{yyyy-MM-dd HH:mm:ss}) %highlight(%-5level) %red([%thread]) %boldMagenta(%logger{50}) %cyan(%msg%n)"/>
+    <!--              value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"/>-->
+    <!--    日志颜色-->
+    <!--    value="%red(%date{yyyy-MM-dd HH:mm:ss}) %highlight(%-5level) %red([%thread]) %boldMagenta(%logger{50}) %cyan(%msg%n)"/>-->
+
+    <!-- 文件存储的默认路径 -->
+    <property name="LOG_PATH" value="D:/project/Venus/venus-base/src/main/resources/logs"/>
+    <!--    D:\project\Venus\venus-base\src\main\resources\logs-->
+    <!-- 每个单独文件的大小默认为50M -->
+    <property name="MAX_FILE_SIZE" value="50MB"/>
+    <!-- 文件最多保存时间默认为60天 -->
+    <property name="MAX_HISTORY" value="60"/>
+    <!-- 文件总大小默认为20G -->
+    <property name="TOTAL_SIZE_CAP" value="20GB"/>
+    <!-- 默认日志级别 -->
+    <property name="LOG_LEVEL" value="DEBUG"/>
+    <!-- 加载资源文件(可以在此文件中自定义以上属性) -->
+    <property resource="logback.properties"/>
+
+
+    <!--
+      将INFO级别的日志输出到控制台
+     -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder>
+            <pattern>${LINE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- DEBUG级别以上的信息写入到log文件中 -->
+    <appender name="D_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/mes-log.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd,aux}/logs/mes-log-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <!-- each file should be at most 100MB, keep 60 days worth of history, but at most 20GB -->
+            <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <totalSizeCap>${TOTAL_SIZE_CAP}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LINE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ERROR信息写入到一个单独的ERROR文件中去 -->
+    <appender name="E_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/mes-error.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd,aux}/error/mes-error-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <!-- each file should be at most 100MB, keep 60 days worth of history, but at most 20GB -->
+            <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <totalSizeCap>${TOTAL_SIZE_CAP}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LINE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="${LOG_LEVEL}">
+        <!-- 输出到控制台 -->
+        <appender-ref ref="CONSOLE"/>
+        <!-- DEBUG级别日志 -->
+        <appender-ref ref="D_FILE"/>
+        <!-- ERROR级别日志 -->
+        <appender-ref ref="E_FILE"/>
+    </root>
+</configuration>
