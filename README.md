@@ -9,7 +9,7 @@
 <h4 align="center">基于SpringBoot+Vue前后端分离的Java快速开发框架</h4>
 <p align="center">
 	<a href="https://github.com/kayleh/venus"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
-</p>
+</p> 
 
 ## 平台简介
 
