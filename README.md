@@ -4,7 +4,7 @@
    </style>
 <div style="text-align: center;margin: 10px 0 0 0" >
        <img  align="center" alt="Venus.png" height="102.4px" src="Venus.png" width="102.4px"/>
-   </div>
+</div>
 <h1 align="center" style="margin: 0">Venus v0.1</h1>
 <h4 align="center">基于SpringBoot+Vue前后端分离的Java快速开发框架</h4>
 <p align="center">
