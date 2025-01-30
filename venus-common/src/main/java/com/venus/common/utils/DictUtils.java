@@ -1,6 +1,5 @@
 package com.venus.common.utils;
 
-import com.alibaba.fastjson2.JSONArray;
 import com.venus.common.constant.CacheConstants;
 import com.venus.common.core.domain.entity.SysDictData;
 import com.venus.common.core.redis.RedisCache;
@@ -37,11 +36,11 @@ public class DictUtils {
      * @return dictDatas 字典数据列表
      */
     public static List<SysDictData> getDictCache(String key) {
-        JSONArray arrayCache = SpringUtils.getBean(RedisCache.class).getCacheObject(getCacheKey(key));
+        /*JSONArray arrayCache = SpringUtils.getBean(RedisCache.class).getCacheObject(getCacheKey(key));
         if (StringUtils.isNotNull(arrayCache)) {
             return arrayCache.toList(SysDictData.class);
-        }
-        return null;
+        }*/
+        return SpringUtils.getBean(RedisCache.class).getCacheObject(getCacheKey(key));
     }
 
     /**

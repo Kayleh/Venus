@@ -1,13 +1,16 @@
 package com.venus.common.utils.ip;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
 import com.venus.common.config.VenusConfig;
 import com.venus.common.constant.Constants;
+import com.venus.common.utils.JsonUtil;
 import com.venus.common.utils.StringUtils;
 import com.venus.common.utils.http.HttpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+
+import static org.apache.logging.log4j.message.MapMessage.MapFormat.JSON;
 
 /**
  * 获取地址类
@@ -35,9 +38,16 @@ public class AddressUtils {
                     log.error("获取地理位置异常 {}", ip);
                     return UNKNOWN;
                 }
-                JSONObject obj = JSON.parseObject(rspStr);
+
+                /*JSONObject obj = JSON.parseObject(rspStr);
                 String region = obj.getString("pro");
-                String city = obj.getString("city");
+                String city = obj.getString("city");*/
+                Map obj = JsonUtil.toObject(rspStr, Map.class);
+                if (obj == null){
+                    return UNKNOWN;
+                }
+                String region = obj.get("pro").toString();
+                String city = obj.get("city").toString();
                 return String.format("%s %s", region, city);
             } catch (Exception e) {
                 log.error("获取地理位置异常 {}", ip);

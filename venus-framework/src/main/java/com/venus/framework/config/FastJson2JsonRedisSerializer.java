@@ -1,10 +1,7 @@
 package com.venus.framework.config;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONReader;
-import com.alibaba.fastjson2.JSONWriter;
-import com.alibaba.fastjson2.filter.Filter;
 import com.venus.common.constant.Constants;
+import com.venus.common.utils.JsonUtil;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 
@@ -18,7 +15,7 @@ import java.nio.charset.Charset;
 public class FastJson2JsonRedisSerializer<T> implements RedisSerializer<T> {
     public static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 
-    static final Filter AUTO_TYPE_FILTER = JSONReader.autoTypeFilter(Constants.JSON_WHITELIST_STR);
+    //static final Filter AUTO_TYPE_FILTER = JSONReader.autoTypeFilter(Constants.JSON_WHITELIST_STR);
 
     private Class<T> clazz;
 
@@ -27,12 +24,23 @@ public class FastJson2JsonRedisSerializer<T> implements RedisSerializer<T> {
         this.clazz = clazz;
     }
 
-    @Override
+    /*@Override
     public byte[] serialize(T t) throws SerializationException {
         if (t == null) {
             return new byte[0];
         }
         return JSON.toJSONString(t, JSONWriter.Feature.WriteClassName).getBytes(DEFAULT_CHARSET);
+    }*/
+    @Override
+    public byte[] serialize(T t) throws SerializationException {
+        if (t == null) {
+            return new byte[0];
+        }
+        try {
+            return JsonUtil.toJson(t).getBytes(DEFAULT_CHARSET);
+        } catch (Exception e) {
+            throw new SerializationException("Failed to serialize object", e);
+        }
     }
 
     @Override
@@ -42,6 +50,16 @@ public class FastJson2JsonRedisSerializer<T> implements RedisSerializer<T> {
         }
         String str = new String(bytes, DEFAULT_CHARSET);
 
+        // {"org.springframework", "com.venus"}
+        String[] whitelistStr = Constants.JSON_WHITELIST_STR;
+        for (String s : whitelistStr) {
+            if (clazz.getPackageName().startsWith(s)) {
+                return JsonUtil.toObject(str, clazz);
+            }
+        }
+/*
         return JSON.parseObject(str, clazz, AUTO_TYPE_FILTER);
+*/
+        return JsonUtil.toObject(str, clazz);
     }
 }

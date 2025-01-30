@@ -1,10 +1,10 @@
 package com.venus.framework.interceptor.impl;
 
-import com.alibaba.fastjson2.JSON;
 import com.venus.common.annotation.RepeatSubmit;
 import com.venus.common.constant.CacheConstants;
 import com.venus.common.core.redis.RedisCache;
 import com.venus.common.filter.RepeatedlyRequestWrapper;
+import com.venus.common.utils.JsonUtil;
 import com.venus.common.utils.StringUtils;
 import com.venus.common.utils.http.HttpHelper;
 import com.venus.framework.interceptor.RepeatSubmitInterceptor;
@@ -47,7 +47,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
 
         // body参数为空，获取Parameter的数据
         if (StringUtils.isEmpty(nowParams)) {
-            nowParams = JSON.toJSONString(request.getParameterMap());
+            nowParams = JsonUtil.toJson(request.getParameterMap());
         }
         Map<String, Object> nowDataMap = new HashMap<String, Object>();
         nowDataMap.put(REPEAT_PARAMS, nowParams);

@@ -1,9 +1,9 @@
 package com.venus.framework.security.handle;
 
-import com.alibaba.fastjson2.JSON;
 import com.venus.common.constant.Constants;
 import com.venus.common.core.domain.AjaxResult;
 import com.venus.common.core.domain.model.LoginUser;
+import com.venus.common.utils.JsonUtil;
 import com.venus.common.utils.MessageUtils;
 import com.venus.common.utils.ServletUtils;
 import com.venus.common.utils.StringUtils;
@@ -45,6 +45,6 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
             // 记录用户退出日志
             AsyncManager.me().execute(AsyncFactory.recordLogininfor(userName, Constants.LOGOUT, MessageUtils.message("user.logout.success")));
         }
-        ServletUtils.renderString(response, JSON.toJSONString(AjaxResult.success(MessageUtils.message("user.logout.success"))));
+        ServletUtils.renderString(response, JsonUtil.toJson(AjaxResult.success(MessageUtils.message("user.logout.success"))));
     }
 }

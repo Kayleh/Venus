@@ -1,12 +1,11 @@
 package com.venus.framework.aspectj;
 
-import com.alibaba.fastjson2.JSON;
 import com.venus.common.annotation.Log;
 import com.venus.common.core.domain.entity.SysUser;
 import com.venus.common.core.domain.model.LoginUser;
 import com.venus.common.enums.BusinessStatus;
 import com.venus.common.enums.HttpMethod;
-import com.venus.common.filter.PropertyPreExcludeFilter;
+import com.venus.common.utils.JsonUtil;
 import com.venus.common.utils.SecurityUtils;
 import com.venus.common.utils.ServletUtils;
 import com.venus.common.utils.StringUtils;
@@ -143,7 +142,7 @@ public class LogAspect {
         }
         // 是否需要保存response，参数和值
         if (log.isSaveResponseData() && StringUtils.isNotNull(jsonResult)) {
-            operLog.setJsonResult(StringUtils.substring(JSON.toJSONString(jsonResult), 0, 2000));
+            operLog.setJsonResult(StringUtils.substring(JsonUtil.toJson(jsonResult), 0, 2000));
         }
     }
 
@@ -160,7 +159,7 @@ public class LogAspect {
             String params = argsArrayToString(joinPoint.getArgs(), excludeParamNames);
             operLog.setOperParam(StringUtils.substring(params, 0, 2000));
         } else {
-            operLog.setOperParam(StringUtils.substring(JSON.toJSONString(paramsMap, excludePropertyPreFilter(excludeParamNames)), 0, 2000));
+            operLog.setOperParam(StringUtils.substring(JsonUtil.toJson(paramsMap, excludePropertyPreFilter(excludeParamNames)), 0, 2000));
         }
     }
 
@@ -173,7 +172,7 @@ public class LogAspect {
             for (Object o : paramsArray) {
                 if (StringUtils.isNotNull(o) && !isFilterObject(o)) {
                     try {
-                        String jsonObj = JSON.toJSONString(o, excludePropertyPreFilter(excludeParamNames));
+                        String jsonObj = JsonUtil.toJson(o, excludePropertyPreFilter(excludeParamNames));
                         params += jsonObj.toString() + " ";
                     } catch (Exception e) {
                     }
@@ -186,9 +185,12 @@ public class LogAspect {
     /**
      * 忽略敏感属性
      */
-    public PropertyPreExcludeFilter excludePropertyPreFilter(String[] excludeParamNames) {
-        return new PropertyPreExcludeFilter().addExcludes(ArrayUtils.addAll(EXCLUDE_PROPERTIES, excludeParamNames));
+    public String[] excludePropertyPreFilter(String[] excludeParamNames) {
+        return ArrayUtils.addAll(EXCLUDE_PROPERTIES, excludeParamNames);
     }
+    /*public PropertyPreExcludeFilter excludePropertyPreFilter(String[] excludeParamNames) {
+        return new PropertyPreExcludeFilter().addExcludes(ArrayUtils.addAll(EXCLUDE_PROPERTIES, excludeParamNames));
+    }*/
 
     /**
      * 判断是否需要过滤的对象。

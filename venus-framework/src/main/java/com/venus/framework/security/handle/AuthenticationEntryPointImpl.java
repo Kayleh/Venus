@@ -1,8 +1,8 @@
 package com.venus.framework.security.handle;
 
-import com.alibaba.fastjson2.JSON;
 import com.venus.common.constant.HttpStatus;
 import com.venus.common.core.domain.AjaxResult;
+import com.venus.common.utils.JsonUtil;
 import com.venus.common.utils.ServletUtils;
 import com.venus.common.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,6 +28,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, S
             throws IOException {
         int code = HttpStatus.UNAUTHORIZED;
         String msg = StringUtils.format("请求访问：{}，认证失败，无法访问系统资源", request.getRequestURI());
-        ServletUtils.renderString(response, JSON.toJSONString(AjaxResult.error(code, msg)));
+        ServletUtils.renderString(response, JsonUtil.toJson(AjaxResult.error(code, msg)));
     }
 }

@@ -1,8 +1,8 @@
 package com.venus.framework.interceptor;
 
-import com.alibaba.fastjson2.JSON;
 import com.venus.common.annotation.RepeatSubmit;
 import com.venus.common.core.domain.AjaxResult;
+import com.venus.common.utils.JsonUtil;
 import com.venus.common.utils.ServletUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,7 +28,7 @@ public abstract class RepeatSubmitInterceptor implements HandlerInterceptor {
             if (annotation != null) {
                 if (this.isRepeatSubmit(request, annotation)) {
                     AjaxResult ajaxResult = AjaxResult.error(annotation.message());
-                    ServletUtils.renderString(response, JSON.toJSONString(ajaxResult));
+                    ServletUtils.renderString(response, JsonUtil.toJson(ajaxResult));
                     return false;
                 }
             }
